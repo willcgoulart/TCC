@@ -16,3 +16,31 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/teste', function () {
+    return view('teste');
+});
+
+Route::get('/entrar', 'LoginController@index')->name('login');
+Route::post('/entrar', 'LoginController@login');
+
+Route::prefix('/user')->group(function () {
+    Route::get('cadastrar', 'UserController@create')->name('form_cadastra_user');
+    Route::post('cadastrar', 'UserController@store')->name('form_cadastra_user');
+});
+
+Route::prefix('/dashboard')->group(function () {
+    Route::get('', 'DashboardController@index')->name('dashboard');
+});
+
+Route::prefix('/etiqueta')->group(function () {
+    Route::get('', 'EtiquetaController@index')->name('etiqueta');
+    Route::get('criar', 'EtiquetaController@create')->name('form_criar_etiqueta');
+    Route::post('criar', 'EtiquetaController@store')->name('form_criar_etiqueta');
+});
+
+Route::prefix('/quadro')->group(function () {
+    Route::get('', 'QuadroController@index')->name('quadro');
+    Route::get('criar', 'QuadroController@create')->name('form_criar_quadro');
+    Route::post('criar', 'QuadroController@store')->name('form_criar_quadro');
+});
