@@ -16,145 +16,221 @@
           class="form-control rounded-25 mt-2" 
           id="desc_quadro" name="desc_quadro" 
           placeholder="Digite a Descrição do Quadro" 
-          required="true" value="{{ old('desc_quadro') ?? '' }}"
+          required="true" value="{{ $dadosQuadros->desc_quadro }}"
           data-ivalid="ivalid-desc-quadro"
         />
         <label for="desc_quadro">Digite a Descrição do Quadro</label>
         <div class="invalid-feedback ivalid-desc-quadro"></div>
 
-        <input type="hidden" 
-          name="total_cartoes" id="total_cartoes" 
-          value="{{ $cartoes }}" />
-        <input type="hidden" 
-          name="total_tarefas" id="total_tarefas" 
-          value="{{ $tarefas }}" 
-        />
-
         <button type="button" class='btn btn-dark rounded-25 mt-2 add-cartao'>
           <i class="bx bxs-message-square-add"></i> Cartão
         </button>
-
-        <div class="card mt-2 rounded-10 dados-cartoes" 
-          data-cartoes="{{ $cartoes }}"
-        >
-          <div class="card-header card-group">
-            <input type="text" 
-              class="form-control cartoes rounded-25 mt-2" 
-              name="desc_cartao_{{ $cartoes }}" id="desc_cartao_{{ $cartoes }}"
-              placeholder="Digite a Descrição da Cartão" required="true" 
-              data-cartao="{{ $cartoes }}"
-              data-ivalid="ivalid-desc-cartao-{{ $cartoes }}"
-            />
-            <label for="desc_cartao_{{ $cartoes }}">Digite a Descrição da Cartão</label>
-            <div class="invalid-feedback ivalid-desc-cartao-{{ $cartoes }}"></div>
-          </div>
-          <div class="card-body">
-            <button type="button" 
-              class="btn btn-dark rounded-25 mb-2 add-tarefa"
-              data-cartao="{{ $cartoes }}"
-              onclick="addTarefa( {{ $cartoes }} );"
-            >
-              <i class="bx bxs-message-square-add"></i> Tarefa
+   
+        @foreach ( $dadosQuadros->cartao as $keyCartao => $dadosCartao )
+          @if ( $keyCartao>0 )
+            <button type="button"
+              class="btn btn-danger rounded-25 mt-4"
+              onclick="excluirCartao( this,{{ $cartoes }} );">
+              <i class="bx bxs-message-square-x"></i> Excluir Cartão
             </button>
+          @endif
+          <div class="card mt-2 rounded-10 dados-cartoes" 
+            data-cartoes="{{ $cartoes }}">
+            <div class="card-header card-group">
+              <input type="text" 
+                class="form-control cartoes rounded-25 mt-2" 
+                name="desc_cartao_{{ $cartoes }}" id="desc_cartao_{{ $cartoes }}"
+                placeholder="Digite a Descrição da Cartão" required="true" 
+                data-cartao="{{ $cartoes }}"
+                data-ivalid="ivalid-desc-cartao-{{ $cartoes }}"
+                value="{{ $dadosCartao->desc_cartao }}"
+              />
+              <label for="desc_cartao_{{ $cartoes }}">Digite a Descrição da Cartão</label>
+              <div class="invalid-feedback ivalid-desc-cartao-{{ $cartoes }}"></div>
+            </div>
+            <div class="card-body">
+              <button type="button" 
+                class="btn btn-dark rounded-25 mb-2 add-tarefa"
+                data-cartao="{{ $cartoes }}"
+                onclick="addTarefa( {{ $cartoes }} );">
+                <i class="bx bxs-message-square-add"></i> Tarefa
+              </button>
 
-            <table class="table"> 
-              <thead>
-                <tr>
-                  <th scope="col">Tarefa</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Usuario</th>
-                  <th scope="col">Etiqueta</th>
-                  <th scope="col">Data Entrega</th>
-                  <th scope="col">Obs</th>
-                  <th scope="col">Excluir</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="dados-tarefas_{{ $cartoes }}" 
-                  data-tarefa="{{ $tarefas }}">
-                  <td>
-                    <textarea class="form-control desc-tarefas" 
-                      name="desc_tarefa_{{ $cartoes }}_{{ $tarefas }}" 
-                      placeholder="Digite a Descrição da Tarefa" 
-                      required="true"  rows="3"
-                      data-ivalid="ivalid-desc-cartao-{{ $cartoes }}-{{ $tarefas }}"></textarea>
-                      <div class="invalid-feedback ivalid-desc-cartao-{{ $cartoes }}-{{ $tarefas }}"></div>
-                  </td>
-                  <td>
-                    <div class="custom-control custom-radio my-1 mr-sm-2">
-                      <input type="radio" class="custom-control-input" 
-                        name="status_{{ $cartoes }}_{{ $tarefas }}" 
-                        value="PE" checked>
-                      <label class="custom-control-label custom-status-tarefa status-tarefa-DodgerBlue rounded-10">Pendente</label>    
-                    </div>
-                    <div class="custom-control custom-radio my-1 mr-sm-2">
-                      <input type="radio" class="custom-control-input" 
-                        name="status_{{ $cartoes }}_{{ $tarefas }}" 
-                        value="FA">
-                      <label class="custom-control-label custom-status-tarefa status-tarefa-SandyBrown rounded-10">Fazendo</label>    
-                    </div>
-                    <div class="custom-control custom-radio my-1 mr-sm-2">
-                      <input type="radio" class="custom-control-input" 
-                        name="status_{{ $cartoes }}_{{ $tarefas }}" 
-                        value="PA">
-                      <label class="custom-control-label custom-status-tarefa status-tarefa-Tomato rounded-10">Parado</label>    
-                    </div>
-                    <div class="custom-control custom-radio my-1 mr-sm-2">
-                      <input type="radio" class="custom-control-input" 
-                        name="status_{{ $cartoes }}_{{ $tarefas }}" 
-                        value="CO">
-                      <label class="custom-control-label  custom-status-tarefa status-tarefa-LimeGreen rounded-10">Concluído</label>    
-                    </div>
-                  </td>
-                  <td>
-                    <div id="user_{{ $tarefas }}" style="font-size: 8.5px;"></div>
-                    <input type="hidden" 
-                      name="user_{{ $cartoes }}_{{ $tarefas }}"
-                      value="" 
-                    />
-                    <button type="button" 
-                      class="btn btn-light rounded-25 mt-4" 
-                      data-bs-toggle="modal" 
-                      data-bs-target="#modalUser"
-                      onclick="modalUser({{ $cartoes }},{{ $tarefas }});"
-                    >
-                      <i class="bx bx-user"></i>
-                    </button>
-                  </td>
-                  <td>
-                    <div id="etiqueta_{{ $tarefas }}" style="font-size: 8.5px;"></div>
-                    <input type="hidden" 
-                      name="etiqueta_{{ $cartoes }}_{{ $tarefas }}"
-                      value="" 
-                    />
-                    <button type="button" 
-                      class="btn btn-light rounded-25 mt-4"
-                      data-bs-toggle="modal" 
-                      data-bs-target="#modalEtiqueta"
-                      onclick="modalEtiqueta({{ $cartoes }},{{ $tarefas }});"
-                    >
-                      <i class="bx bx-purchase-tag-alt"></i>
-                    </button>
-                  </td>
-                  <td>
-                    <input type="date" 
-                      class="form-control rounded-25 mt-4" 
-                      name="data_{{ $cartoes }}_{{ $tarefas }}" 
-                    />
-                  </td>
-                  <td>
-                    <textarea class="form-control" 
-                      name="obs_{{ $cartoes }}_{{ $tarefas }}" 
-                      placeholder="Digite uma observação" 
-                      rows="3"></textarea>
-                  </td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
+              <table class="table"> 
+                <thead>
+                  <tr>
+                    <th scope="col">Tarefa</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Etiqueta</th>
+                    <th scope="col">Data Entrega</th>
+                    <th scope="col">Obs</th>
+                    <th scope="col">Excluir</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ( $dadosCartao->tarefa as $keyTarefa => $dadosTarefa )
+                    <tr class="dados-tarefas_{{ $cartoes }}" 
+                      data-tarefa="{{ $tarefas }}">
+                      <td>
+                        <textarea class="form-control desc-tarefas" 
+                          name="desc_tarefa_{{ $cartoes }}_{{ $tarefas }}" 
+                          placeholder="Digite a Descrição da Tarefa" 
+                          required="true"  rows="3"
+                          data-ivalid="ivalid-desc-cartao-{{ $cartoes }}-{{ $tarefas }}">{{ $dadosTarefa->desc_tarefa }}</textarea>
+                          <div class="invalid-feedback ivalid-desc-cartao-{{ $cartoes }}-{{ $tarefas }}"></div>
+                      </td>
+                      <td>
+                        <div class="custom-control custom-radio my-1 mr-sm-2">
+                          <input type="radio" class="custom-control-input" 
+                            name="status_{{ $cartoes }}_{{ $tarefas }}" 
+                            value="PE" 
+                            {{ $dadosTarefa->status=="PE" ? "checked" : ""; }}>
+                          <label class="custom-control-label custom-status-tarefa status-tarefa-DodgerBlue rounded-10">Pendente</label>    
+                        </div>
+                        <div class="custom-control custom-radio my-1 mr-sm-2">
+                          <input type="radio" class="custom-control-input" 
+                            name="status_{{ $cartoes }}_{{ $tarefas }}" 
+                            value="FA"
+                            {{ $dadosTarefa->status=="FA" ? "checked" : ""; }}>
+                          <label class="custom-control-label custom-status-tarefa status-tarefa-SandyBrown rounded-10">Fazendo</label>    
+                        </div>
+                        <div class="custom-control custom-radio my-1 mr-sm-2">
+                          <input type="radio" class="custom-control-input" 
+                            name="status_{{ $cartoes }}_{{ $tarefas }}" 
+                            value="PA"
+                            {{ $dadosTarefa->status=="PA" ? "checked" : ""; }}>
+                          <label class="custom-control-label custom-status-tarefa status-tarefa-Tomato rounded-10">Parado</label>    
+                        </div>
+                        <div class="custom-control custom-radio my-1 mr-sm-2">
+                          <input type="radio" class="custom-control-input" 
+                            name="status_{{ $cartoes }}_{{ $tarefas }}" 
+                            value="CO"
+                            {{ $dadosTarefa->status=="CO" ? "checked" : ""; }}>
+                          <label class="custom-control-label  custom-status-tarefa status-tarefa-LimeGreen rounded-10">Concluído</label>    
+                        </div>
+                      </td>
+                      <td>
+                        @php 
+                          $userCartaoTarefa = ""; 
+                          $userCartaoTarefaName = ""; 
+                        @endphp
+                        @foreach ( $dadosTarefa->TarefaUser as $dadosTarefaUser )
+                          @php 
+                            if( empty($userCartaoTarefa) )
+                            {
+                              $userCartaoTarefa = $dadosTarefaUser->id_user;
+                              $userCartaoTarefaName = $dadosTarefaUser->User->name;
+                            }
+                            else 
+                            {
+                              $userCartaoTarefa = $userCartaoTarefa.'|'.$dadosTarefaUser->id_user;
+                              $userCartaoTarefaName = $userCartaoTarefaName.', '.$dadosTarefaUser->User->name;
+                            }
+                          @endphp
+                        @endforeach
+                        <div id="user_{{ $tarefas }}" 
+                          style="font-size: 8.5px;">
+                          {{ $userCartaoTarefaName }}
+                        </div>
+                        <input type="hidden" 
+                          name="user_{{ $cartoes }}_{{ $tarefas }}"
+                          value="{{ $userCartaoTarefa }}" 
+                        />
+                        <button type="button" 
+                          class="btn btn-light rounded-25 mt-4" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#modalUser"
+                          onclick="modalUser({{ $cartoes }},{{ $tarefas }});"
+                        >
+                          <i class="bx bx-user"></i>
+                        </button>
+                      </td>
+                      <td>
+                        @php 
+                          $etiquetaCartaoTarefa = ""; 
+                          $etiquetaCartaoTarefaDesc = ""; 
+                        @endphp
+                        @foreach ( $dadosTarefa->tarefaEtiqueta as $dadosTarefaEtiqueta )
+                          @php 
+                            if( empty($etiquetaCartaoTarefa) )
+                            {
+                              $etiquetaCartaoTarefa = $dadosTarefaEtiqueta->id_etiqueta;
+                            }
+                            else 
+                            {
+                              $etiquetaCartaoTarefa = $etiquetaCartaoTarefa.'|'.$dadosTarefaEtiqueta->id_etiqueta;
+                            }
+                          @endphp
+                        @endforeach
+                        <div id="etiqueta_{{ $tarefas }}" 
+                          style="font-size: 8.5px;">
+                          @foreach ( $dadosTarefa->tarefaEtiqueta as $key => $dadosTarefaEtiqueta )
+                            @if( $key>0 )
+                              ,
+                            @endif
+                            <span class="custom-etiquetas-tarefa rounded-10" 
+                              style="background-color: {{ $dadosTarefaEtiqueta->Etiqueta->cor_etiqueta }};"> 
+                              {{ $dadosTarefaEtiqueta->Etiqueta->desc_etiqueta }}
+                            </span>
+                          @endforeach
+                        </div>
+                        <input type="hidden" 
+                          name="etiqueta_{{ $cartoes }}_{{ $tarefas }}"
+                          value="{{ $etiquetaCartaoTarefa }}" 
+                        />
+                        <button type="button" 
+                          class="btn btn-light rounded-25 mt-4"
+                          data-bs-toggle="modal" 
+                          data-bs-target="#modalEtiqueta"
+                          onclick="modalEtiqueta({{ $cartoes }},{{ $tarefas }});"
+                        >
+                          <i class="bx bx-purchase-tag-alt"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <input type="date" 
+                          class="form-control rounded-25 mt-4" 
+                          name="data_{{ $cartoes }}_{{ $tarefas }}" 
+                          value="{{ $dadosTarefa->data_entrega }}"
+                        />
+                      </td>
+                      <td>
+                        <textarea class="form-control" 
+                            name="obs_{{ $cartoes }}_{{ $tarefas }}" 
+                            placeholder="Digite uma observação" 
+                            rows="3">@foreach ( $dadosTarefa->TarefaObs as $dadosObs ){{ $dadosObs->desc_obs }}@endforeach</textarea>
+                      </td>
+                      <td>
+                        @if ( $keyTarefa>0 )
+                          <button type="button"
+                            class="btn btn-danger rounded-25 mt-4"
+                            onclick="excluirTarefa( {{ $cartoes }},{{ $tarefas }} );">
+                            <i class="bx bxs-message-square-x"></i>
+                          </button>
+                        @endif
+                      </td>
+                    </tr>  
+                    @php $tarefas++; @endphp
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+          @php $cartoes++; @endphp
+        @endforeach
       </div>
+      <input type="hidden" 
+        name="total_cartoes" id="total_cartoes" 
+        value="{{ $cartoes }}" />
+      <input type="hidden" 
+        name="total_tarefas" id="total_tarefas" 
+        value="{{ $tarefas }}" 
+      />
+      <input type="hidden" 
+        name="id_quadro" id="id_quadro" 
+        value="{{ $idQuadro }}" 
+      />
 
       <div class="row justify-content-center">
           <div class="col-xl-6 col-lg-6 col-md-9">
@@ -162,12 +238,13 @@
               <div class="row">
                   <div class="col-lg-12">
                       <button type="submit" class="btn btn-primary rounded-25 btn-block mt-2 mb-4" id="quadro_salvar">
-                        <i class="fas fa-sign-in-alt fa-fw"></i>Salvar
+                        <i class="fas fa-sign-in-alt fa-fw"></i>Atualizar
                       </button>
                   </div>
               </div>
           </div>
       </div>
+
     </div>
   </section>
   <form action="{{ route('quadro') }}" method="GET" id="form_quadro"></form>
@@ -254,6 +331,7 @@
     $('#quadro_salvar').click(function() {
       let erros = 0;
       const descQuadro = $('#desc_quadro');
+      const idQuadro = $('#id_quadro').val();
       erros = validaRequerid(descQuadro,'Descrição do Quadro')+erros;
 
       $('.dados-cartoes').each(function( index ) {
@@ -290,9 +368,14 @@
         });
       
         $.ajax({
-          url: "{{route('form_criar_quadro')}}",
+          url: "{{route('form_salvar_editar_quadro')}}",
           type: 'post',
-          data: { _token: '{{csrf_token()}}',desc_quadro: descQuadro, dados_cartoes: dadosCartoes },
+          data: { 
+            _token: '{{csrf_token()}}',
+            desc_quadro: descQuadro, 
+            dados_cartoes: dadosCartoes,
+            id_quadro: idQuadro
+          },
           dataType: 'json',
 
           success: function (response) {

@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('cabecalho')
-  Quadro
+  Usuários
 @endsection
 
 @section('conteudo')
@@ -9,50 +9,32 @@
   <section class="home-section">
     <div class="container">
 
-      @include('routes', ['router' => 'form_criar_quadro'])
+      @include('routes', ['router' => 'form_cadastra_user'])
       @include('mensagem', ['mensagem' => $mensagem])
       <div class="alert alert-success" 
         id="mensagem_delete"
-        style="display: none;">Quadro deletado com sucesso
+        style="display: none;">Usuário deletado com sucesso
       </div>
 
       <table class="table"> 
         <thead>
           <tr>
-            <th scope="col" style="text-align: center">Quadro</th>
-            <th scope="col" style="text-align: center">Total de Cartões</th>
-            <th scope="col" style="text-align: center">Total de Tarefas</th>
-            <th scope="col" style="text-align: center">Tarefas Concluidas %</th>
+            <th scope="col" style="text-align: center">Nome</th>
+            <th scope="col" style="text-align: center">Tipo</th>
             <th scope="col" style="text-align: center">Editar</th>
             <th scope="col" style="text-align: center">Excluir</th>
           </tr>
         </thead>
         <tbody>
-        @foreach ($quadros as $quadro)
-          @php $totalTarefas=0; @endphp
-          <tr id="quadro_{{ $quadro->id_quadro }}">
-            <td>{{ $quadro['desc_quadro'] }}</td>
-            <td style="text-align: center">{{ count( $quadro->cartao ) }}</td>
+        @foreach ($users as $user)
+          <tr>
+            <td>{{ $user->name }}</td>
             <td style="text-align: center">
-              @foreach ( $quadro->cartao as $cartao )
-                @php $totalTarefas=$totalTarefas+count( $cartao->tarefa ) @endphp
-              @endforeach
-              {{ $totalTarefas }}
-            </td>
-            <td style="text-align: center">
-              @php $totalTarefasConcluidas=0; @endphp
-              @foreach ( $quadro->cartao as $cartao )
-                @foreach ( $cartao->tarefa as $tarefa )
-                  @if ($tarefa->status=="CO")
-                    @php $totalTarefasConcluidas++; @endphp
-                  @endif
-                @endforeach
-              @endforeach
-              {{ round( ( ( $totalTarefasConcluidas*100 )/$totalTarefas ),2 ) }}%
+              {{ $user->tipoUser->desc_tipo_user }}
             </td>
             <td style="text-align: center">
               <a href="{{ route('form_editar_quadro', 
-                ['id' => $quadro->id_quadro]) 
+                ['id' => $user->id_user]) 
               }}">
                 <button type="button" 
                   class="btn btn-light rounded-25">
@@ -65,7 +47,7 @@
                 class="btn btn-danger rounded-25" 
                 data-bs-toggle="modal" 
                 data-bs-target="#modalExcluir"
-                onclick="modalQuadroExcluir( {{ $quadro->id_quadro }} );">
+                onclick="modalQuadroExcluir( {{ $user->id_user }} );">
                 <i class="bx bxs-message-square-x"></i>
               </button>
             </td>

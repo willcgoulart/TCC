@@ -38,11 +38,16 @@
         </a>
         <span class="tooltip">Etiqueta</span>
       </li>
-
-
-
       <li>
-       <a href="#">
+        @auth
+          @if( Auth::user()->id_user_tipo==1 )
+            <a href="{{ route('user') }}">
+          @else
+            <a href="{{ route('form_editar_user', 
+              ['id' => Auth::user()->id_user]) 
+            }}">
+          @endif
+        @endauth
          <i class='bx bx-user' ></i>
          <span class="links_name">User</span>
        </a>

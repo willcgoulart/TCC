@@ -25,8 +25,11 @@ Route::get('/entrar', 'LoginController@index')->name('login');
 Route::post('/entrar', 'LoginController@login');
 
 Route::prefix('/user')->group(function () {
+    Route::get('', 'UserController@index')->name('user');
     Route::get('cadastrar', 'UserController@create')->name('form_cadastra_user');
     Route::post('cadastrar', 'UserController@store')->name('form_cadastra_user');
+
+    Route::get('editar/{id}', 'UserController@editar')->name('form_editar_user');
 });
 
 Route::prefix('/dashboard')->group(function () {
@@ -43,4 +46,7 @@ Route::prefix('/quadro')->group(function () {
     Route::get('', 'QuadroController@index')->name('quadro');
     Route::get('criar', 'QuadroController@create')->name('form_criar_quadro');
     Route::post('criar', 'QuadroController@store')->name('form_criar_quadro');
+    Route::delete('deletar', 'QuadroController@destroy')->name('form_deletar_quadro');
+    Route::get('editar/{id}', 'QuadroController@editar')->name('form_editar_quadro');
+    Route::post('editar', 'QuadroController@editarSalvar')->name('form_salvar_editar_quadro');
 });
