@@ -8,7 +8,6 @@
 
   <section class="home-section">
     <div class="container">
-
       @include('routes', ['router' => 'form_cadastra_user'])
       @include('mensagem', ['mensagem' => $mensagem])
       <div class="alert alert-success" 
@@ -27,13 +26,13 @@
         </thead>
         <tbody>
         @foreach ($users as $user)
-          <tr>
+          <tr id="user_{{ $user->id_user }}">
             <td>{{ $user->name }}</td>
             <td style="text-align: center">
               {{ $user->tipoUser->desc_tipo_user }}
             </td>
             <td style="text-align: center">
-              <a href="{{ route('form_editar_quadro', 
+              <a href="{{ route('form_editar_user', 
                 ['id' => $user->id_user]) 
               }}">
                 <button type="button" 
@@ -87,22 +86,22 @@
 
   <script>
 
-    function modalQuadroExcluir(quadro){
-      $('#excluir_quadro').attr( 'data-excluir', quadro );
+    function modalQuadroExcluir(idUser){
+      $('#excluir_quadro').attr( 'data-excluir', idUser );
     }
 
     $('#excluir_quadro').click(function() {
-      let quadro = $(this).attr('data-excluir');
+      let idUser = $(this).attr('data-excluir');
 
       $.ajax({
-        url: "{{route('form_deletar_quadro')}}",
+        url: "{{route('form_deletar_user')}}",
         type: 'delete',
-        data: { _token: '{{csrf_token()}}',id_quadro: quadro },
+        data: { _token: '{{csrf_token()}}',id_user: idUser },
         dataType: 'json',
 
         success: function (response) {
           if(response['success'] == true){
-            $('#quadro_'+quadro).remove();
+            $('#user_'+idUser).remove();
             $('#mensagem_delete').css('display', '');
           }else{
             alert('Erro');

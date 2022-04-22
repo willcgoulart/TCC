@@ -8,7 +8,7 @@
 
   <section class="home-section">
     <div class="container">
-      <a href="{{ route('form_criar_etiqueta') }}" class="btn btn-dark rounded-25 mb-2">Adicionar</a>
+      @include('routes', ['router' => 'form_criar_etiqueta'])
       <div id="etiqueta_tables"></div>
     </div>
   </section>

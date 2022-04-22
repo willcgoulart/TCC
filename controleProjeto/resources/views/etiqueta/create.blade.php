@@ -60,9 +60,67 @@
                                         </div>
                                     @endif
                                 @endauth
-                                <div class="form-label-group ml-4" id="etiqueta_create"></div>
+                                <div class="form-label-group ml-4 mt-2">
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #519839"
+                                        data-color="green">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #d9b51c"
+                                        data-color="yellow">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #cd8313"
+                                        data-color="orange">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #b04632"
+                                        data-color="red">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #c377e0"
+                                        data-color="purple">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #0079bf"
+                                        data-color="blue">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #00c2e0"
+                                        data-color="sky">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #51e898"
+                                        data-color="lime">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #ff78cb"
+                                        data-color="pink">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #344563"
+                                        data-color="black">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                    <span class="etiqueta-color" 
+                                        style="background-color: #b3bac5"
+                                        data-color="default">
+                                        <i class='bx bx-check etiqueta-imagem-check'></i>
+                                    </span>
+                                </div>
 
-                                <button type="submit" class="btn btn-primary rounded-25 btn-block" id="btnEntrar">
+                                <button type="submit" 
+                                    class="btn btn-primary rounded-25 btn-block mt-2" 
+                                    id="btnEntrar">
                                     <i class="fas fa-sign-in-alt fa-fw" id="iconeEntrar"></i>Salvar
                                 </button>
 

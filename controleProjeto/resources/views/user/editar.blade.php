@@ -16,18 +16,18 @@
                     <div class="col-lg-12">
                         <div class="m-5">
                             <div class="text-center">
-                                <h1 class="mb-4">Cadastro</h1>
+                                <h1 class="mb-4">Editar</h1>
                             </div> 
-                            <form method="POST">
+                            <form method="POST" action="{{ route('form_salvar_editar_user') }}">
                                 @csrf
                                 @include('erros', ['errors' => $errors->mensagemErro])
-
+                   
                                 <div class="form-label-group">
                                     <input type="text" class="form-control rounded-25 
                                         {{ $errors->has("name") ? 'is-invalid' :'' }}" 
                                         id="name" name="name" 
                                         placeholder="Digite seu Nome" 
-                                        value="{{ old('name') ?? '' }}">
+                                        value="{{ old('name') ?? $user->name }}">
                                     <label for="name">Digite seu Nome</label>
                                     <div class="invalid-feedback">
                                         @if($errors->has("name"))
@@ -37,13 +37,13 @@
                                         @endif
                                     </div>
                                 </div>
-                                
+                               
                                 <div class="form-label-group">
                                     <input type="email" class="form-control rounded-25 
                                         {{ $errors->has("email") ? 'is-invalid' :'' }}" 
                                         id="email" name="email" 
                                         placeholder="Digite seu E-mail" 
-                                        value="{{ old('email') ?? '' }}">
+                                        value="{{ old('email') ?? $user->email }}">
                                     <label for="email">Digite seu E-mail</label>
                                     <div class="invalid-feedback">
                                         @if($errors->has("email"))
@@ -64,7 +64,7 @@
                                                     id="user_tipo_{{ $tipo->id_user_tipo }}"
                                                     name="user_tipo" 
                                                     value="{{ $tipo->id_user_tipo }}"
-                                                    {{ $tipo->id_user_tipo==1 ? 'checked' :'' }}>
+                                                    {{ $tipo->id_user_tipo==$user->id_user_tipo ? 'checked' :'' }}>
                                                     <label class="custom-control-label pt-1"
                                                     for="user_tipo_{{ $tipo->id_user_tipo }}">
                                                     {{ $tipo->desc_tipo_user }}</label>
@@ -92,7 +92,9 @@
                                 <button type="submit" class="btn btn-primary rounded-25 btn-block" id="btnEntrar">
                                     <i class="fas fa-sign-in-alt fa-fw" id="iconeEntrar"></i>Salvar
                                 </button>
-
+                                <input type="hidden" 
+                                    name="id_user" 
+                                    value="{{ $user->id_user }}">
                             </form>
                         </div>
                     </div>

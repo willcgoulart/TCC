@@ -28,8 +28,10 @@ Route::prefix('/user')->group(function () {
     Route::get('', 'UserController@index')->name('user');
     Route::get('cadastrar', 'UserController@create')->name('form_cadastra_user');
     Route::post('cadastrar', 'UserController@store')->name('form_cadastra_user');
+    Route::delete('deletar', 'UserController@destroy')->name('form_deletar_user');
 
     Route::get('editar/{id}', 'UserController@editar')->name('form_editar_user');
+    Route::post('editar', 'UserController@editarSalvar')->name('form_salvar_editar_user');
 });
 
 Route::prefix('/dashboard')->group(function () {
