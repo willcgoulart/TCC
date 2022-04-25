@@ -21,9 +21,35 @@ class EtiquetaController extends Controller
         $this->etiquetaService = $etiquetaService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('etiqueta.index');
+        if( Auth::user()->id_user_tipo==1 )
+        {
+            $etiquetas = Etiqueta::where( [ 
+                ['id_empresa','=',Auth::user()->id_empresa],
+                ['status','=','A'],
+                ['id_etiqueta_tipo','=','1'] 
+            ] )->union(Etiqueta::where( [ 
+                    ['id_empresa','=',Auth::user()->id_empresa],
+                    ['id_user','=',Auth::user()->id_user],
+                    ['status','=','A'],
+                    ['id_etiqueta_tipo','=','2']
+                ] )
+            )->orderBy('desc_etiqueta')->get();
+        }
+        else
+        {
+            $etiquetas = Etiqueta::where( [ 
+                    ['id_empresa','=',Auth::user()->id_empresa],
+                    ['id_user','=',Auth::user()->id_user],
+                    ['status','=','A'],
+                    ['id_etiqueta_tipo','=','2']
+                ] )->orderBy('desc_etiqueta')->get();
+        }
+
+        $mensagem = $request->session()->get('mensagem');
+
+        return view('etiqueta.index', compact('etiquetas','mensagem'));
     }
 
     public  function create()
@@ -56,6 +82,36 @@ class EtiquetaController extends Controller
 
         return view('etiqueta.index');
         
+	}
+
+    public function editar($idEtiqueta)
+    {   
+        $etiqueta = Etiqueta::find($idEtiqueta);
+        $tiposEtiquetas = EtiquetaTipo::query()->orderBy('desc_etiqueta_tipo')->get();       
+        
+        return view('etiqueta.editar', compact('etiqueta','tiposEtiquetas'));
+    }
+
+    public function editarSalvar(EtiquetaRequest $request)
+    {
+        $etiqueta = Etiqueta::find($request->id_etiqueta);
+        $etiqueta->desc_etiqueta = $request->desc_etiqueta;
+        $etiqueta->id_etiqueta_tipo = $request->etiqueta_tipo;
+        $etiqueta->cor_etiqueta = $request->cor_etiqueta;
+        $etiqueta->save();
+
+        $request->session()->flash('mensagem',"Etiqueta atualizado com sucesso");
+        return redirect()->route('etiqueta');
+    }
+
+    public function destroy(Request $request)
+    {
+        $etiqueta = Etiqueta::find($request->id_etiqueta);
+        $etiqueta->status = 'I';
+        $etiqueta->save();
+
+        $result['success'] = true;
+        echo json_encode($result);
 	}
     
 }

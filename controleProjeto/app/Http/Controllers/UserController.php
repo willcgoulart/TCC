@@ -56,7 +56,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->	id_user_tipo = $request->user_tipo;
-        $user->	password = $request->password;
+        $user->	password = Hash::make($request->password);
         $user->save();
 
         $request->session()->flash('mensagem',"Usuário atualizado com sucesso");

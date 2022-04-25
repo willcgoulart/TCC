@@ -21,6 +21,11 @@ class Etiqueta extends Model
         'created_at',
     ];
 
+    public function tipoEtiqueta()
+    {
+        return $this->hasOne(EtiquetaTipo::class, 'id_etiqueta_tipo', 'id_etiqueta_tipo');
+    }
+
     public function dadosUser()
     {
         return $this->belongsTo(User::class);

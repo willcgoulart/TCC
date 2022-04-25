@@ -29,7 +29,6 @@ Route::prefix('/user')->group(function () {
     Route::get('cadastrar', 'UserController@create')->name('form_cadastra_user');
     Route::post('cadastrar', 'UserController@store')->name('form_cadastra_user');
     Route::delete('deletar', 'UserController@destroy')->name('form_deletar_user');
-
     Route::get('editar/{id}', 'UserController@editar')->name('form_editar_user');
     Route::post('editar', 'UserController@editarSalvar')->name('form_salvar_editar_user');
 });
@@ -42,6 +41,9 @@ Route::prefix('/etiqueta')->group(function () {
     Route::get('', 'EtiquetaController@index')->name('etiqueta');
     Route::get('criar', 'EtiquetaController@create')->name('form_criar_etiqueta');
     Route::post('criar', 'EtiquetaController@store')->name('form_criar_etiqueta');
+    Route::delete('deletar', 'EtiquetaController@destroy')->name('form_deletar_etiqueta');
+    Route::get('editar/{id}', 'EtiquetaController@editar')->name('form_editar_etiqueta');
+    Route::post('editar', 'EtiquetaController@editarSalvar')->name('form_salvar_editar_etiqueta');
 });
 
 Route::prefix('/quadro')->group(function () {

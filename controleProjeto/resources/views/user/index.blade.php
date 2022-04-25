@@ -46,7 +46,7 @@
                 class="btn btn-danger rounded-25" 
                 data-bs-toggle="modal" 
                 data-bs-target="#modalExcluir"
-                onclick="modalQuadroExcluir( {{ $user->id_user }} );">
+                onclick="modalUserExcluir( {{ $user->id_user }} );">
                 <i class="bx bxs-message-square-x"></i>
               </button>
             </td>
@@ -76,7 +76,7 @@
           <button type="button" 
             class="btn btn-danger" 
             data-bs-dismiss="modal"
-            id="excluir_quadro"
+            id="excluir_user"
             data-excluir=""
           >Excluir</button>
         </div>
@@ -86,11 +86,11 @@
 
   <script>
 
-    function modalQuadroExcluir(idUser){
-      $('#excluir_quadro').attr( 'data-excluir', idUser );
+    function modalUserExcluir(idUser){
+      $('#excluir_user').attr( 'data-excluir', idUser );
     }
 
-    $('#excluir_quadro').click(function() {
+    $('#excluir_user').click(function() {
       let idUser = $(this).attr('data-excluir');
 
       $.ajax({
