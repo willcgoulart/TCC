@@ -17,12 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/teste', function () {
-    return view('teste');
-});
-
 Route::get('/entrar', 'LoginController@index')->name('login');
 Route::post('/entrar', 'LoginController@login');
+
+Route::get('/sair', function(){
+    \Illuminate\Support\Facades\Auth::logout();
+    return redirect('/entrar');
+})->name('sair');
 
 Route::prefix('/user')->group(function () {
     Route::get('', 'UserController@index')->name('user');
@@ -53,4 +54,24 @@ Route::prefix('/quadro')->group(function () {
     Route::delete('deletar', 'QuadroController@destroy')->name('form_deletar_quadro');
     Route::get('editar/{id}', 'QuadroController@editar')->name('form_editar_quadro');
     Route::post('editar', 'QuadroController@editarSalvar')->name('form_salvar_editar_quadro');
+
+    Route::get('lista', 'QuadroController@listaQuadros')->name('lista_quadros');
+    Route::get('lista/adm', 'QuadroController@listaQuadrosAdm')->name('lista_quadros_adm');
+});
+
+Route::prefix('/tarefa')->group(function () {
+    Route::get('pendente', 'TarefaController@listaPendente')->name('tarefa_pendente');
+    Route::get('pendente/adm', 'TarefaController@listaPendenteAdm')->name('tarefa_pendente_adm');
+    Route::get('atraso', 'TarefaController@listaAtraso')->name('tarefa_atraso');
+    Route::get('atraso/adm', 'TarefaController@listaAtrasoAdm')->name('tarefa_atraso_adm');
+    Route::get('lista/{id}', 'TarefaController@lista')->name('tarefa_lista');
+    Route::get('lista/user/{id}', 'TarefaController@listaUser')->name('tarefa_lista_user');
+    Route::post('detalhe', 'TarefaController@buscaDados')->name('tarefa_dados');
+    Route::get('demandas', 'TarefaController@listaDemandasUser')->name('tarefa_demanda');
+    Route::post('editar', 'TarefaController@editarSalvar')->name('tarefa_salvar'); 
+});
+
+Route::prefix('/analise')->group(function () {
+    Route::get('', 'AnaliseController@index')->name('analise');
+   
 });

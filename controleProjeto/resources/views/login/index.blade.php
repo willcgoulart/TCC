@@ -5,7 +5,7 @@
 
 <div class="container">
     <div class="text-center pt-3">
-        <img class="logo" src="{{ asset('img/logo.jpg') }}">
+        <img class="logo" src="{{ asset('img/logo.png') }}">
     </div>
     <!-- Outer Row -->
     <div class="row justify-content-center">

@@ -11319,6 +11319,10 @@ body {
   padding: 7px 16px 7px 14px;
 }
 
+.font-size-12 {
+  font-size: 12px;
+}
+
 /* Placeholder */
 :root {
   --input-padding-x: 1rem;
@@ -11327,8 +11331,8 @@ body {
 }
 
 .logo {
-  width: 200px;
-  height: 76px;
+  width: 160px;
+  height: 100px;
 }
 
 .form-label-group {
@@ -11513,6 +11517,40 @@ body {
   padding-top: 20px;
 }
 
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #e3e6f0;
+  border-radius: 0.35rem;
+}
+
+.card-flex {
+  display: flex;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem;
+}
+
+.border-left-primary {
+  border-left: 0.25rem solid #4e73df !important;
+}
+
+.border-left-danger {
+  border-left: 0.25rem solid #dc3545 !important;
+}
+
+.border-left-magentaBlue {
+  border-left: 0.25rem solid #11101D !important;
+}
+
 .custom-control-label {
   position: relative;
   margin-bottom: 0;
@@ -11550,6 +11588,11 @@ body {
   padding-top: 5px;
   padding-bottom: 5px;
   color: white !important;
+}
+
+.icone-card {
+  font-size: 18px;
+  color: #11101D;
 }
 
 .btn-block {

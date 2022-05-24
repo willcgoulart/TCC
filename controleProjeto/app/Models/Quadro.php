@@ -14,6 +14,7 @@ class Quadro extends Model
     protected $fillable = [
         'desc_quadro',
         'status',
+        'id_user',
         'updated_at',
         'created_at',
     ];
@@ -21,6 +22,11 @@ class Quadro extends Model
     public function cartao()
     {
         return $this->hasMany(Cartao::class, 'id_quadro', 'id_quadro');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_user', 'id_user');
     }
 }
 

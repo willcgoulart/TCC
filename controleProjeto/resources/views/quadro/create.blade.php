@@ -30,7 +30,7 @@
           value="{{ $tarefas }}" 
         />
 
-        <button type="button" class='btn btn-dark rounded-25 mt-2 add-cartao'>
+        <button type="button" class="btn btn-dark rounded-25 mt-2 add-cartao">
           <i class="bx bxs-message-square-add"></i> Cartão
         </button>
 

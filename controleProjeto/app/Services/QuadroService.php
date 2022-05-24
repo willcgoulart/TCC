@@ -7,6 +7,7 @@ use App\Models\Tarefa;
 use App\Models\TarefaUser;
 use App\Models\TarefaEtiqueta;
 use App\Models\TarefaObs;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class QuadroService{
@@ -15,7 +16,9 @@ class QuadroService{
     {
         DB::beginTransaction();
             $quadro = Quadro::create([
-                'desc_quadro' => $dados['desc_quadro']
+                'desc_quadro' => $dados['desc_quadro'],
+                'id_user' => Auth::user()->id_user
+               
             ]);
         DB::commit();
 

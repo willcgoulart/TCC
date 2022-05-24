@@ -80,8 +80,7 @@ class EtiquetaController extends Controller
         
 		$request->session()->flash('mensagem',"Etiqueta cadastrda com sucesso");
 
-        return view('etiqueta.index');
-        
+        return redirect()->route('etiqueta');
 	}
 
     public function editar($idEtiqueta)

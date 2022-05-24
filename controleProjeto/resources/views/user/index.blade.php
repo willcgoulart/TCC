@@ -5,6 +5,10 @@
 @endsection
 
 @section('conteudo')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+
 
   <section class="home-section">
     <div class="container">
@@ -14,8 +18,10 @@
         id="mensagem_delete"
         style="display: none;">Usuário deletado com sucesso
       </div>
-
-      <table class="table"> 
+      <div class="mb-4"></div>
+      <table class="table table-striped table-bordered table-hover dataTable no-footer" 
+        id="dataTable_user" 
+        aria-describedby="dataTable_user_info"    role="grid" > 
         <thead>
           <tr>
             <th scope="col" style="text-align: center">Nome</th>
@@ -109,6 +115,31 @@
         }
       });
     });
+
+    $(document).ready(function() {
+      console.log('ddsdas');
+      
+      $('#dataTable_user').DataTable({
+          responsive: true,
+          'oLanguage': {
+            'sLengthMenu': 'Mostrar _MENU_ registros por página',
+            'sZeroRecords': 'Nenhum registro encontrado',
+            'sInfo': 'Mostrando _START_ / _END_ de _TOTAL_ registro(s)',
+            'sInfoEmpty': 'Mostrando 0 / 0 de 0 registros',
+            'sInfoFiltered': '(filtrado de _MAX_ registros)',
+            'sSearch': 'Pesquisar na Lista: ',
+            'oPaginate': {
+              'sFirst': 'Início',
+              'sPrevious': 'Anterior',
+              'sNext': 'Próximo',
+              'sLast': 'Último'
+            }
+          },
+        'order': [[ 0, 'asc' ]],
+        'lengthMenu': [[25,50,100,150,200, -1], [25,50,100,150,200, 'Todos']]
+      });
+      
+  }); 
     
   </script>
 

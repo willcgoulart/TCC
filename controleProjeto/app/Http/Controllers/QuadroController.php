@@ -8,6 +8,7 @@ use App\Models\Quadro;
 use Illuminate\Http\Request;
 use App\Http\Requests\QuadroRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Services\QuadroService;
 
@@ -22,6 +23,7 @@ class QuadroController extends Controller
     
     public function index(Request $request)
     {   
+        //$user = User::find($request->id_user);
         $quadros = Quadro::query()->orderBy('desc_quadro')->get(); 
     
         $mensagem = $request->session()->get('mensagem');
@@ -117,5 +119,47 @@ class QuadroController extends Controller
         $result['success'] = true;
         echo json_encode($result);
 	}
+
+    public function listaQuadros(Request $request)
+    {
+        DB::statement("SET SQL_MODE=''");//this is the trick use it just before your query
+        $quadroUser = DB::table('quadros')
+            ->select('quadros.id_quadro','quadros.desc_quadro',
+                DB::raw('GROUP_CONCAT(cartoes.id_cartao ORDER BY cartoes.id_cartao ASC SEPARATOR "|") AS id_cartao'),
+                DB::raw('GROUP_CONCAT(cartoes.desc_cartao ORDER BY cartoes.id_cartao ASC SEPARATOR "|") AS desc_cartao'))
+            ->join('cartoes', 'cartoes.id_quadro', '=', 'quadros.id_quadro')
+            ->where( [ 
+                ['quadros.id_user','=',Auth::user()->id_user]
+        ])->groupBy('quadros.id_quadro');
+        
+        $todosQuadros = DB::table('tarefas_user')
+            ->select('quadros.id_quadro','quadros.desc_quadro',
+                DB::raw('GROUP_CONCAT(DISTINCT cartoes.id_cartao ORDER BY cartoes.id_cartao ASC SEPARATOR "|") AS id_cartao'),
+                DB::raw('GROUP_CONCAT(DISTINCT cartoes.desc_cartao ORDER BY cartoes.id_cartao ASC SEPARATOR "|") AS desc_cartao'))
+            ->join('tarefas', 'tarefas.id_tarefa', '=', 'tarefas_user.id_tarefa')
+            ->join('cartoes', 'cartoes.id_cartao', '=', 'tarefas.id_cartao')
+            ->join('quadros', 'quadros.id_quadro', '=', 'cartoes.id_quadro')
+            ->where( [ 
+                ['quadros.id_user','=',Auth::user()->id_user]
+            ])->groupBy('quadros.id_quadro')
+        ->union($quadroUser)->get();
+
+        $mensagem = $request->session()->get('mensagem');
+        return view('quadro.lista', compact('todosQuadros','mensagem'));
+    }
+
+    public function listaQuadrosAdm(Request $request)
+    {
+        DB::statement("SET SQL_MODE=''");//this is the trick use it just before your query
+        $todosQuadros = DB::table('quadros')
+            ->select('quadros.id_quadro','quadros.desc_quadro',
+                DB::raw('GROUP_CONCAT(cartoes.id_cartao ORDER BY cartoes.id_cartao ASC SEPARATOR "|") AS id_cartao'),
+                DB::raw('GROUP_CONCAT(cartoes.desc_cartao ORDER BY cartoes.id_cartao ASC SEPARATOR "|") AS desc_cartao'))
+            ->join('cartoes', 'cartoes.id_quadro', '=', 'quadros.id_quadro')
+        ->groupBy('quadros.id_quadro')->get();
+        
+        $mensagem = $request->session()->get('mensagem');
+        return view('quadro.lista', compact('todosQuadros','mensagem'));
+    }
     
 }

@@ -23,10 +23,11 @@ class TarefaUser extends Model
         return $this->hasOne(User::class, 'id_user', 'id_user');
     }
 
-    public function dadosTarefa()
+    public function dadosTarefaUser()
     {
-        return $this->belongsTo(Tarefa::class);
+        return $this->belongsTo(Tarefa::class, 'id_tarefa', 'id_tarefa');
     }
+
 }
 
 ?>
