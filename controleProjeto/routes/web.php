@@ -73,5 +73,12 @@ Route::prefix('/tarefa')->group(function () {
 
 Route::prefix('/analise')->group(function () {
     Route::get('', 'AnaliseController@index')->name('analise');
+    Route::post('tarefas/todas', 'AnaliseController@todasTarefas')->name('analise_tarefas_todas');
+    Route::post('tarefas/todas/adm', 'AnaliseController@todasTarefasAdm')->name('analise_tarefas_todas_adm');
+    Route::post('tarefas/user/adm', 'AnaliseController@tarefasUserAdm')->name('analise_tarefas_user_adm');
+
+    Route::post('tarefas/cartoes', 'AnaliseController@consultaCartoes')->name('analise_tarefas_cartoes');
+    Route::post('tarefas/user', 'AnaliseController@consultaTarefas')->name('analise_tarefas');
+    Route::post('tarefas/adm', 'AnaliseController@consultaTarefasAdm')->name('analise_tarefas_adm');
    
 });

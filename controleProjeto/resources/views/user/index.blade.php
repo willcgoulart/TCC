@@ -117,7 +117,6 @@
     });
 
     $(document).ready(function() {
-      console.log('ddsdas');
       
       $('#dataTable_user').DataTable({
           responsive: true,
